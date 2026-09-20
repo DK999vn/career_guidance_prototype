@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Demo tương tác cổng thông tin hướng nghiệp dựa trên dữ liệu cho học sinh THPT.">
+  <title>Thử Nghề - Demo tương tác</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23172c2e'/%3E%3Cpath d='M14 43h36v6H14z' fill='%23e1a93b'/%3E%3Cpath d='M18 16h28v8H35v25h-8V24h-9z' fill='%23ffffff'/%3E%3Ccircle cx='48' cy='18' r='7' fill='%236c925d'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+  <script src="assets/lucide.js" defer></script>
+  <script src="app.js" defer></script>
+  <script>
+    if (location.hash.includes("figmacapture=")) {
+      const captureScript = document.createElement("script");
+      captureScript.src = "https://mcp.figma.com/mcp/html-to-design/capture.js";
+      captureScript.async = true;
+      document.head.appendChild(captureScript);
+    }
+  </script>
+</head>
+<body>
+  <main id="app" aria-label="Bảng thiết kế prototype Thử Nghề"></main>
+</body>
+</html>
