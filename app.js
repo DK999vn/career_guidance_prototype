@@ -206,10 +206,10 @@ function searchScreen() {
               <div><strong>Chưa tìm thấy kết quả phù hợp</strong><p>Thử từ gần nghĩa hoặc bỏ bớt một bộ lọc.</p><div class="header-actions">${button("Xóa bộ lọc", "outline", "filter-x", `data-search-action="clear-filters"`)} ${button("Xem tất cả kết quả", "primary", "list", `data-search-action="show-all"`)}</div></div>
             </div>
             <div class="result-list">
-              ${cards.map((card) => `
+              ${cards.map((card, index) => `
                 <article class="result-card ${card.featured ? "featured" : ""}">
                   <div class="result-visual ${card.visual[1]}">${icon(card.visual[0])}<span>${card.visual[2]}</span></div>
-                  <div class="result-copy"><div class="result-topline">${badge("Nghề", "blue")} ${card.status}</div><h3>${card.title}</h3><ul class="activity-list">${card.activities.map((item) => `<li>${item}</li>`).join("")}</ul></div>
+                  <div class="result-copy"><div class="result-topline">${badge("Nghề", "blue")} ${card.status}</div><h3>${card.title}</h3><div class="result-facts">${renderSearchFacts("job", index)}</div><ul class="activity-list">${card.activities.map((item) => `<li>${item}</li>`).join("")}</ul></div>
                   <div class="result-side"><div class="result-stat"><span>Liên kết đào tạo</span><strong>${card.majors}</strong></div><div class="header-actions">${button("So sánh", "outline", "plus", `data-search-card-action="compare"`)} ${button("Xem nghề", "primary", "arrow-right")}</div></div>
                 </article>`).join("")}
             </div>
@@ -223,114 +223,15 @@ function searchScreen() {
 }
 
 function jobDetailScreen() {
-  return screenFrame(
-    "screen-job-detail",
-    "03 · Chi tiết nghề",
-    "Công việc, đường học, số liệu và nguồn",
-    `
-      ${portalHeader("Tra cứu")}
-      ${crumbs(["Trang chủ", "Tra cứu nghề", "Chuyên viên phân tích dữ liệu"])}
-      <section class="entity-hero">
-        <div class="content-container entity-head">
-          <div class="entity-title"><div class="entity-type">${badge("Nghề", "blue")} ${badge("Dữ liệu minh họa", "orange", "flask-conical")}</div><h1>Chuyên viên phân tích dữ liệu</h1><p>Giúp một tổ chức hiểu điều gì đang xảy ra bằng cách đặt câu hỏi, kiểm tra dữ liệu và trình bày phát hiện rõ ràng.</p><div class="entity-meta"><span>${icon("tags")} Tên thường gặp: Data Analyst</span><span>${icon("layers-3")} Nhóm nghề: Phân tích và ra quyết định</span><span>${icon("clock-3")} Cập nhật: 18/09/2026</span></div></div>
-          <div class="job-hero-side"><div class="job-hero-visual">${icon("chart-no-axes-combined")}<span><strong>Từ câu hỏi</strong> đến phát hiện có ích</span></div><div class="entity-actions">${button("Lưu", "outline", "bookmark", `data-action="save"`)} ${button("Thêm so sánh", "primary", "columns-3", `data-nav="screen-compare"`)}</div></div>
-        </div>
-      </section>
-      <div class="content-container detail-layout">
-        <aside class="anchor-nav"><strong>Trong trang này</strong><a class="active">Tóm tắt</a><a>Một ngày làm việc</a><a>Môi trường</a><a>Kỹ năng</a><a>Bức tranh thị trường</a><a>Thu nhập</a><a>Đường học liên quan</a><a>Điều cần kiểm tra</a></aside>
-        <main class="detail-main">
-          <section class="content-section">
-            <div class="section-heading"><div><h2>Ba điều dễ hình dung về nghề này</h2><p>Đọc nhanh để biết công việc có gần với điều bạn muốn thử hay không.</p></div></div>
-            <div class="decision-summary"><div class="summary-cell"><span>Công việc bắt đầu từ</span><strong>Một câu hỏi cần làm rõ</strong><p>Ví dụ: vì sao người dùng rời bỏ một sản phẩm?</p></div><div class="summary-cell"><span>Phần tốn nhiều thời gian</span><strong>Kiểm tra và làm sạch dữ liệu</strong><p>Dữ liệu phải đủ tốt trước khi có thể kết luận.</p></div><div class="summary-cell"><span>Kết quả tạo ra</span><strong>Biểu đồ, phát hiện, đề xuất</strong><p>Giúp người khác hiểu và cân nhắc hành động tiếp theo.</p></div></div>
-          </section>
-          <section class="content-section">
-            <h2>Một ngày làm việc có thể gồm</h2>
-            <div class="day-flow"><div class="day-step"><span class="step-number">01</span><strong>Làm rõ câu hỏi</strong><p>Trao đổi với bộ phận nghiệp vụ về mục tiêu và cách dùng kết quả.</p></div><div class="day-step"><span class="step-number">02</span><strong>Tìm dữ liệu</strong><p>Xác định bảng, trường và phạm vi dữ liệu cần thiết.</p></div><div class="day-step"><span class="step-number">03</span><strong>Kiểm tra chất lượng</strong><p>Phát hiện thiếu, trùng, sai định dạng hoặc khác định nghĩa.</p></div><div class="day-step"><span class="step-number">04</span><strong>Phân tích</strong><p>Chọn phương pháp phù hợp với câu hỏi và dữ liệu.</p></div><div class="day-step"><span class="step-number">05</span><strong>Trình bày</strong><p>Giải thích phát hiện, giới hạn và hành động có thể cân nhắc.</p></div></div>
-          </section>
-          <section class="content-section">
-            <div class="two-column"><div class="info-panel"><h3>Môi trường và cách làm việc</h3><ul class="info-list"><li>${icon("users")}<span>Kết hợp làm việc tập trung với trao đổi liên phòng ban.</span></li><li>${icon("monitor-cog")}<span>Sử dụng bảng tính, SQL, công cụ trực quan hóa và tài liệu nghiệp vụ.</span></li><li>${icon("calendar-clock")}<span>Nhịp deadline thay đổi theo chu kỳ báo cáo và dự án.</span></li></ul></div><div class="info-panel"><h3>Kỹ năng được thể hiện bằng hành vi</h3><ul class="info-list"><li>${icon("message-square-text")}<span>Chuyển câu hỏi mơ hồ thành đại lượng có thể kiểm tra.</span></li><li>${icon("shield-check")}<span>Nhận ra dữ liệu không đủ tốt trước khi kết luận.</span></li><li>${icon("presentation")}<span>Giải thích kết quả cho người không chuyên về dữ liệu.</span></li></ul></div></div>
-          </section>
-          <section class="content-section">
-            <div class="section-heading"><div><h2>Nhu cầu tuyển dụng thay đổi ra sao?</h2><p>Biểu đồ cho thấy mức xuất hiện của tin tuyển dụng, không phải số việc làm được bảo đảm.</p></div><div class="chip-row">${badge("Số liệu đã có", "teal")} ${badge("Ước tính đến 2028", "purple")}</div></div>
-            <div class="market-grid">
-              <div class="chart-panel"><div class="chart-head"><div><strong>Chỉ số tin tuyển dụng của nhóm nghề</strong><span>2022–2028 · Toàn quốc · 2024 = 100 · dữ liệu minh họa</span></div>${badge("Dữ liệu thử nghiệm", "orange", "flask-conical")}</div><div class="trend-chart"><div class="bar-group"><span class="trend-bar" style="height:45%"></span><span class="bar-label">2022</span></div><div class="bar-group"><span class="trend-bar" style="height:54%"></span><span class="bar-label">2023</span></div><div class="bar-group"><span class="trend-bar" style="height:63%"></span><span class="bar-label">2024</span></div><div class="bar-group"><span class="trend-bar forecast" style="height:70%"></span><span class="bar-label">2025</span></div><div class="bar-group"><span class="trend-bar forecast" style="height:78%"></span><span class="bar-label">2026</span></div><div class="bar-group"><span class="trend-bar forecast" style="height:84%"></span><span class="bar-label">2027</span></div><div class="bar-group"><span class="trend-bar forecast" style="height:88%"></span><span class="bar-label">2028</span></div></div><div class="chart-legend"><span class="legend-item"><span class="legend-swatch"></span>Số liệu đã có</span><span class="legend-item"><span class="legend-swatch forecast"></span>Dự báo + khoảng có thể xảy ra</span></div></div>
-              <aside class="source-summary"><div class="agent-panel-head"><h3>Bạn đang xem dữ liệu gì?</h3>${icon("external-link")}</div><dl class="source-meta"><div><dt>Đo điều gì</dt><dd>Mức thay đổi của tin tuyển dụng</dd></div><div><dt>Không phải</dt><dd>Số việc làm hay khả năng có việc của bạn</dd></div><div><dt>Khu vực</dt><dd>Toàn quốc</dd></div><div><dt>Số liệu đã có</dt><dd>2022–2024</dd></div><div><dt>Ước tính</dt><dd>2025–2028</dd></div><div><dt>Cập nhật</dt><dd>18/09/2026</dd></div></dl><button class="text-link text-button" type="button" data-source-id="job-postings-index">Xem nguồn và cách tính ${icon("arrow-right")}</button></aside>
-            </div>
-          </section>
-          <section class="content-section"><h2>Thu nhập</h2><div class="missing-panel"><span class="missing-icon">${icon("circle-minus")}</span><div><strong>Chưa có dữ liệu phù hợp</strong><p>Chưa có nguồn đủ tương thích về nghề, khu vực và nhóm kinh nghiệm để công bố khoảng thu nhập.</p></div>${button("Xem nguồn liên quan", "outline", "database", `data-source-id="salary-gap"`)}</div></section>
-          <section class="content-section"><div class="section-heading"><div><h2>Những đường học có thể dẫn tới nghề này</h2><p>Quan hệ nhiều–nhiều; không có một ngành duy nhất bắt buộc.</p></div></div><div class="relation-grid"><article class="relation-card"><div class="result-topline">${badge("Ngành học", "blue")} ${badge("Liên kết cần duyệt", "yellow")}</div><h3>Khoa học dữ liệu</h3><p>Tập trung vào dữ liệu, mô hình và cách triển khai phân tích.</p><div class="card-footer"><span>Nền tảng định lượng cao</span><a class="text-link" href="#screen-major-detail" data-nav="screen-major-detail">Xem ngành ${icon("arrow-right")}</a></div></article><article class="relation-card"><div class="result-topline">${badge("Ngành học", "blue")} ${badge("Liên kết cần duyệt", "yellow")}</div><h3>Hệ thống thông tin</h3><p>Kết nối công nghệ, quy trình và nhu cầu của tổ chức.</p><div class="card-footer"><span>Công nghệ + nghiệp vụ</span><a class="text-link" href="#screen-major-detail" data-nav="screen-major-detail">Xem ngành ${icon("arrow-right")}</a></div></article><article class="relation-card"><div class="result-topline">${badge("Ngành học", "blue")} ${badge("Liên kết cần duyệt", "yellow")}</div><h3>Thống kê ứng dụng</h3><p>Tập trung vào suy luận, thiết kế phân tích và độ bất định.</p><div class="card-footer"><span>Phương pháp định lượng</span><a class="text-link" href="#screen-major-detail" data-nav="screen-major-detail">Xem ngành ${icon("arrow-right")}</a></div></article></div></section>
-        </main>
-      </div>
-      ${footer()}
-    `,
-    1880
-  );
+  return renderDetailDashboard("job");
 }
 
 function majorDetailScreen() {
-  return screenFrame(
-    "screen-major-detail",
-    "04 · Chi tiết ngành học",
-    "Nội dung học, nghề liên quan và chương trình",
-    `
-      ${portalHeader("Tra cứu")}
-      ${crumbs(["Trang chủ", "Tra cứu ngành học", "Khoa học dữ liệu"])}
-      <section class="entity-hero"><div class="content-container entity-head"><div class="entity-title"><div class="entity-type">${badge("Ngành học", "blue")} ${badge("Nội dung khái quát", "yellow", "book-open-check")}</div><h1>Khoa học dữ liệu</h1><p>Học cách dùng toán, lập trình và kiến thức thực tế để tìm câu trả lời hoặc xây dựng sản phẩm từ dữ liệu.</p><div class="entity-meta"><span>${icon("binary")} Máy tính và dữ liệu</span><span>${icon("route")} 8 nghề liên quan</span><span>${icon("school")} 12 chương trình để tìm hiểu</span></div></div><div class="job-hero-side"><div class="job-hero-visual major">${icon("binary")}<span><strong>Toán + Lập trình</strong> cùng bối cảnh ứng dụng</span></div><div class="entity-actions">${button("Lưu", "outline", "bookmark", `data-action="save"`)} ${button("Thêm so sánh", "primary", "columns-3", `data-nav="screen-compare"`)}</div></div></div></section>
-      <div class="content-container detail-layout">
-        <aside class="anchor-nav"><strong>Trong trang này</strong><a class="active">Ngành học là gì</a><a>Khối kiến thức</a><a>Nền tảng nên chuẩn bị</a><a>Nghề liên quan</a><a>Chương trình đào tạo</a><a>Điều cần kiểm tra</a></aside>
-        <main class="detail-main">
-          <section class="content-section"><div class="section-heading"><div><h2>Bạn sẽ học những gì?</h2><p>Bốn nhóm dưới đây giúp hình dung nhanh; tỷ lệ thực tế thay đổi theo từng chương trình.</p></div>${badge("Ví dụ minh họa", "orange", "flask-conical")}</div><div class="curriculum-bar"><span class="curriculum-segment seg-math" style="width:28%"></span><span class="curriculum-segment seg-compute" style="width:34%"></span><span class="curriculum-segment seg-domain" style="width:18%"></span><span class="curriculum-segment seg-project" style="width:20%"></span></div><div class="curriculum-legend"><span class="legend-item"><span class="legend-swatch seg-math"></span>Toán và thống kê · 28%</span><span class="legend-item"><span class="legend-swatch seg-compute"></span>Lập trình và dữ liệu · 34%</span><span class="legend-item"><span class="legend-swatch seg-domain"></span>Ứng dụng thực tế · 18%</span><span class="legend-item"><span class="legend-swatch seg-project"></span>Dự án và trình bày · 20%</span></div></section>
-          <section class="content-section"><h2>Các khối kiến thức thường gặp</h2><div class="module-grid"><div class="module-row"><span class="module-index">01</span><div><strong>Xác suất và suy luận thống kê</strong><span>Đọc dữ liệu trong điều kiện có biến thiên và bất định.</span></div></div><div class="module-row"><span class="module-index">02</span><div><strong>Lập trình và cấu trúc dữ liệu</strong><span>Xử lý dữ liệu bằng công cụ tính toán có thể tái sử dụng.</span></div></div><div class="module-row"><span class="module-index">03</span><div><strong>Cơ sở dữ liệu và kỹ thuật dữ liệu</strong><span>Tổ chức, truy xuất và kiểm soát chất lượng dữ liệu.</span></div></div><div class="module-row"><span class="module-index">04</span><div><strong>Mô hình hóa và học máy</strong><span>Xây dựng, đánh giá và giới hạn cách dùng mô hình.</span></div></div><div class="module-row"><span class="module-index">05</span><div><strong>Trực quan hóa và kể chuyện dữ liệu</strong><span>Trình bày kết quả để người khác hiểu và kiểm tra.</span></div></div><div class="module-row"><span class="module-index">06</span><div><strong>Đạo đức và quản trị dữ liệu</strong><span>Nhận diện rủi ro thiên lệch, quyền riêng tư và sử dụng sai.</span></div></div></div></section>
-          <section class="content-section"><h2>Bạn có thể chuẩn bị từ bây giờ</h2><div class="two-column"><div class="info-panel"><h3>Những điều nên thử</h3><ul class="info-list"><li>${icon("calculator")}<span>Học toán theo hướng hiểu khái niệm và thực hành.</span></li><li>${icon("code-2")}<span>Thử mô tả một vấn đề bằng quy trình hoặc mã lệnh.</span></li><li>${icon("languages")}<span>Làm quen dần với tài liệu tiếng Anh.</span></li></ul></div><div class="info-panel"><h3>Trước khi chọn chương trình</h3><ul class="info-list"><li>${icon("list-checks")}<span>Xem đề cương thật thay vì chỉ dựa vào tên ngành.</span></li><li>${icon("folder-kanban")}<span>Thử một dự án dữ liệu nhỏ.</span></li><li>${icon("messages-square")}<span>Hỏi sinh viên về cách học và khối lượng bài tập.</span></li></ul></div></div><div class="callout blue" style="margin-top:14px">${icon("info")}<div><strong>Bạn không cần giỏi sẵn mọi thứ.</strong><br>Mỗi chương trình có mức độ và nguồn hỗ trợ khác nhau; hãy kiểm tra từng nơi cụ thể.</div></div></section>
-          <section class="content-section"><div class="section-heading"><div><h2>Nghề liên quan</h2><p>Những nghề dưới đây có thể sử dụng một phần kiến thức của ngành; không phải mọi sinh viên đều đi cùng một hướng.</p></div><a class="text-link">Xem toàn bộ 8 nghề ${icon("arrow-right")}</a></div><div class="relation-grid"><article class="relation-card"><div class="icon-box teal">${icon("chart-no-axes-combined")}</div><h3 style="margin-top:14px">Chuyên viên phân tích dữ liệu</h3><p>Làm rõ câu hỏi, phân tích và trình bày phát hiện.</p><div class="card-footer"><span>Nhiều lối vào</span>${badge("Có dữ liệu", "teal")}</div></article><article class="relation-card"><div class="icon-box purple">${icon("brain-circuit")}</div><h3 style="margin-top:14px">Chuyên viên khoa học dữ liệu</h3><p>Thử nghiệm mô hình và đánh giá khả năng sử dụng.</p><div class="card-footer"><span>Đòi hỏi phương pháp sâu hơn</span>${badge("Đang bổ sung", "gray")}</div></article><article class="relation-card"><div class="icon-box orange">${icon("workflow")}</div><h3 style="margin-top:14px">Kỹ sư dữ liệu</h3><p>Xây dựng luồng dữ liệu ổn định và có thể giám sát.</p><div class="card-footer"><span>Thiên về hệ thống</span>${badge("Có dữ liệu", "teal")}</div></article></div></section>
-          <section class="content-section"><div class="section-heading"><div><h2>Chương trình đào tạo đang có trong danh mục</h2><p>Học phí, thời gian và điều kiện tuyển sinh được gắn ở cấp chương trình, không gắn chung cho ngành.</p></div>${button("Lọc chương trình", "outline", "sliders-horizontal")}</div><table class="data-table"><thead><tr><th>Chương trình</th><th>Cơ sở đào tạo</th><th>Địa điểm</th><th>Thời lượng</th><th>Dữ liệu tuyển sinh</th><th></th></tr></thead><tbody><tr><td><strong>Khoa học dữ liệu</strong>Chương trình minh họa A</td><td>Cơ sở đào tạo A</td><td>Hà Nội</td><td>4 năm</td><td>${badge("Năm 2026", "teal")}</td><td><a class="text-link">Xem ${icon("arrow-right")}</a></td></tr><tr><td><strong>Khoa học dữ liệu ứng dụng</strong>Chương trình minh họa B</td><td>Cơ sở đào tạo B</td><td>TP. Hồ Chí Minh</td><td>4 năm</td><td>${badge("Thiếu học phí", "gray")}</td><td><a class="text-link">Xem ${icon("arrow-right")}</a></td></tr><tr><td><strong>Phân tích dữ liệu kinh doanh</strong>Chương trình minh họa C</td><td>Cơ sở đào tạo C</td><td>Đà Nẵng</td><td>3,5 năm</td><td>${badge("Năm 2026", "teal")}</td><td><a class="text-link">Xem ${icon("arrow-right")}</a></td></tr></tbody></table></section>
-        </main>
-      </div>
-      ${footer()}
-    `,
-    1760
-  );
+  return renderDetailDashboard("major");
 }
 
 function programDetailScreen() {
-  return screenFrame(
-    "screen-program-detail",
-    "05 · Chi tiết chương trình",
-    "Tuyển sinh, thời lượng và chi phí",
-    `
-      ${portalHeader("Tra cứu")}
-      ${crumbs(["Trang chủ", "Tra cứu trường & chương trình", "Cơ sở đào tạo A", "Khoa học dữ liệu"])}
-      <section class="entity-hero">
-        <div class="content-container program-identity">
-          <div class="entity-title">
-            <div class="entity-type">${badge("Chương trình đào tạo", "blue")} ${badge("Dữ liệu minh họa", "orange", "flask-conical")}</div>
-            <h1>Khoa học dữ liệu</h1>
-            <p>Chương trình tại Cơ sở đào tạo A · Hà Nội. Hãy kiểm tra đúng năm tuyển sinh khi xem điều kiện và chi phí.</p>
-            <div class="entity-meta"><span>${icon("school")} Cơ sở đào tạo A</span><span>${icon("map-pin")} Hà Nội</span><span>${icon("calendar-days")} Kỳ tuyển sinh 2026</span></div>
-            <div class="entity-actions" style="margin-top:22px">${button("Mở trang chính thức", "outline", "external-link", `data-source-id="program-official"`)} ${button("Thêm so sánh", "primary", "columns-3", `data-nav="screen-compare"`)}</div>
-          </div>
-          <div class="program-facts">
-            <div class="program-fact"><span>Thời lượng</span><strong>4 năm · toàn thời gian</strong></div>
-            <div class="program-fact"><span>Ngôn ngữ</span><strong>Tiếng Việt + học liệu tiếng Anh</strong></div>
-            <div class="program-fact"><span>Học phí 2026</span><strong>Chưa có dữ liệu phù hợp</strong></div>
-            <div class="program-fact"><span>Thông tin</span><strong>Đang dùng dữ liệu minh họa</strong></div>
-          </div>
-        </div>
-      </section>
-      <div class="content-container detail-layout">
-        <aside class="anchor-nav"><strong>Trong trang này</strong><a class="active">Tổng quan</a><a>Nội dung học</a><a>Điều kiện tuyển sinh</a><a>Chi phí</a><a>Nguồn chính thức</a><a>Việc cần kiểm tra</a></aside>
-        <main class="detail-main">
-          <section class="content-section"><div class="section-heading"><div><h2>Chương trình này có gì đáng chú ý?</h2><p>Cùng tên ngành nhưng mỗi trường có thể khác về nội dung học, thời lượng, chi phí và cách tuyển sinh.</p></div></div><div class="decision-summary"><div class="summary-cell"><span>Học theo hướng</span><strong>Dữ liệu và mô hình ứng dụng</strong><p>Đi từ dữ liệu thô đến kết quả có thể sử dụng.</p></div><div class="summary-cell"><span>Cách học</span><strong>Toàn thời gian tại cơ sở</strong><p>Nên kiểm tra lịch học và yêu cầu có mặt.</p></div><div class="summary-cell"><span>Thông tin việc làm</span><strong>Chưa đủ để so sánh</strong><p>Hãy xem nghề cụ thể thay vì dựa vào nội dung quảng bá.</p></div></div></section>
-          <section class="content-section"><div class="section-heading"><div><h2>Nội dung học được chia thế nào?</h2><p>Tỷ lệ minh họa để bạn hình dung nhanh; hãy mở đề cương chính thức trước khi quyết định.</p></div></div><div class="curriculum-bar"><span class="curriculum-segment seg-math" style="width:25%"></span><span class="curriculum-segment seg-compute" style="width:38%"></span><span class="curriculum-segment seg-domain" style="width:17%"></span><span class="curriculum-segment seg-project" style="width:20%"></span></div><div class="curriculum-legend"><span class="legend-item"><span class="legend-swatch seg-math"></span>Toán & thống kê · 25%</span><span class="legend-item"><span class="legend-swatch seg-compute"></span>Công nghệ dữ liệu · 38%</span><span class="legend-item"><span class="legend-swatch seg-domain"></span>Tự chọn ứng dụng · 17%</span><span class="legend-item"><span class="legend-swatch seg-project"></span>Dự án & thực tập · 20%</span></div></section>
-          <section class="content-section"><div class="section-heading"><div><h2>Điều kiện tuyển sinh</h2><p>Mỗi điều kiện đi cùng năm áp dụng và đường dẫn chính thức; không suy diễn từ dữ liệu năm trước.</p></div>${badge("Năm 2026", "teal", "calendar-check")}</div><table class="data-table"><thead><tr><th>Phương thức</th><th>Điều kiện công bố</th><th>Phạm vi áp dụng</th><th>Trạng thái</th></tr></thead><tbody><tr><td><strong>Xét kết quả thi</strong>Kỳ thi tốt nghiệp THPT</td><td>Tổ hợp và ngưỡng nhận hồ sơ</td><td>Đợt tuyển sinh 2026</td><td>${badge("Có văn bản", "teal")}</td></tr><tr><td><strong>Xét kết quả học tập</strong>Hồ sơ học bạ</td><td>Tiêu chí chi tiết theo đề án</td><td>Cần xác minh từng đợt</td><td>${badge("Đang kiểm tra", "orange")}</td></tr><tr><td><strong>Phương thức khác</strong>Theo đề án của trường</td><td>Chưa có dữ liệu đủ chi tiết</td><td>Không tự suy luận</td><td>${badge("Thiếu dữ liệu", "gray")}</td></tr></tbody></table></section>
-          <section class="content-section"><h2>Chi phí học tập</h2><div class="missing-panel"><span class="missing-icon">${icon("wallet-cards")}</span><div><strong>Chưa có học phí được xác minh cho năm 2026</strong><p>Hệ thống không dùng mức của năm trước để tự điền. Bạn có thể mở nguồn trường hoặc lưu câu hỏi này vào checklist.</p></div>${button("Mở nguồn trường", "outline", "external-link", `data-source-id="program-tuition-gap"`)}</div></section>
-          <section class="content-section"><div class="section-heading"><div><h2>Việc nên kiểm tra trước khi lưu lựa chọn</h2><p>Những việc đã rõ và những câu hỏi cần hỏi thêm.</p></div>${button("Lưu danh sách", "outline", "bookmark-check", `data-checklist-save`)}</div><div class="admission-checklist"><div class="check-item"><span class="check-status">${icon("check")}</span><div><strong>Kiểm tra đúng tên chương trình</strong><span>Đã đối chiếu với danh mục tuyển sinh 2026.</span></div></div><div class="check-item"><span class="check-status">${icon("check")}</span><div><strong>Xác nhận thời lượng học</strong><span>Thông tin áp dụng cho hình thức toàn thời gian.</span></div></div><div class="check-item pending"><span class="check-status">${icon("clock-3")}</span><div><strong>Xác minh học phí toàn khóa</strong><span>Chưa có nguồn 2026 đủ điều kiện công bố.</span></div></div><div class="check-item pending"><span class="check-status">${icon("clock-3")}</span><div><strong>Hỏi về học bổng và chi phí khác</strong><span>Không chỉ nhìn học phí danh nghĩa.</span></div></div><div class="check-item pending"><span class="check-status">${icon("clock-3")}</span><div><strong>Đọc đề cương học phần</strong><span>Kiểm tra mức toán, lập trình và dự án thực tế.</span></div></div><div class="check-item pending"><span class="check-status">${icon("clock-3")}</span><div><strong>Kiểm tra điều kiện từng phương thức</strong><span>Tránh dùng ngưỡng của một đợt cho toàn bộ tuyển sinh.</span></div></div></div></section>
-        </main>
-      </div>
-      ${footer()}
-    `,
-    1650
-  );
+  return renderDetailDashboard("program");
 }
 
 function compareScreen() {
@@ -742,14 +643,14 @@ const sourceRecords = {
     unit: "Chỉ số, năm 2024 = 100",
     provider: "Bộ dữ liệu minh họa của bản dùng thử",
     updated: "18/09/2026",
-    method: "Loại các tin trùng nhau, nhóm theo thời gian và quy đổi về cùng hệ thống nhóm nghề đã được kiểm tra.",
+    method: "Dãy 72, 86, 100 cho các năm 2022, 2023, 2024 được tạo thủ công để thử giao diện; chưa thu thập hoặc thống kê tin tuyển dụng thật. Năm 2024 được đặt làm mốc 100.",
     limitation: "Tin tuyển dụng không đại diện cho toàn bộ việc làm và không phải số người đang làm nghề. Dự báo chỉ dùng trong khoảng thời gian được công bố."
   },
   "salary-gap": {
     title: "Khoảng trống dữ liệu thu nhập",
     status: ["Thiếu dữ liệu", "gray", "circle-minus"],
     definition: "Prototype chưa có nguồn thu nhập đủ đồng nhất về định nghĩa nghề, kỳ đo và khu vực để hiển thị một con số đáng tin cậy.",
-    entity: "Nghề phân tích dữ liệu",
+    entity: "Nghề đang tra cứu · chưa có số liệu trong bản dùng thử",
     geography: "Chưa đồng nhất giữa các nguồn",
     period: "Nhiều kỳ, chưa thể đối chiếu",
     unit: "Chưa áp dụng",
@@ -760,7 +661,7 @@ const sourceRecords = {
   },
   "program-official": {
     title: "Trang thông tin chính thức của chương trình",
-    status: ["Nguồn cấp A", "teal", "shield-check"],
+    status: ["Nguồn minh họa", "orange", "flask-conical"],
     definition: "Thông tin mô tả chương trình, thời lượng và tuyển sinh được truy vết về trang hoặc tài liệu của cơ sở đào tạo.",
     entity: "Một chương trình đào tạo cụ thể",
     geography: "Theo cơ sở đào tạo",
@@ -786,7 +687,7 @@ const sourceRecords = {
   },
   "major-content-framework": {
     title: "Khung nội dung ngành học · phiên bản 0.4",
-    status: ["Nguồn cấp B", "blue", "file-check-2"],
+    status: ["Nguồn minh họa", "orange", "flask-conical"],
     definition: "Khung mô tả các nhóm kiến thức thường xuất hiện trong một ngành học; không đại diện cho mọi chương trình.",
     entity: "Ngành học",
     geography: "Phạm vi quốc gia",
@@ -799,7 +700,7 @@ const sourceRecords = {
   },
   "program-catalogue": {
     title: "Danh mục chương trình và đề cương",
-    status: ["Nguồn cấp A", "teal", "shield-check"],
+    status: ["Nguồn minh họa", "orange", "flask-conical"],
     definition: "Danh mục bản ghi chương trình gắn với cơ sở đào tạo, địa điểm, thời lượng và tài liệu chính thức.",
     entity: "Chương trình đào tạo",
     geography: "Ba cơ sở đào tạo minh họa",
@@ -809,6 +710,32 @@ const sourceRecords = {
     updated: "18/09/2026",
     method: "Lấy dữ liệu theo cùng một cấu trúc và giữ đường dẫn nguồn, năm áp dụng, ngày truy cập.",
     limitation: "Danh mục chưa bao phủ đầy đủ và không phải bảng xếp hạng chương trình."
+  },
+  "dashboard-curriculum": {
+    title: "Cơ cấu nội dung học · Chương trình A minh họa",
+    status: ["Dữ liệu minh họa", "orange", "flask-conical"],
+    definition: "Ví dụ cơ cấu bốn nhóm nội dung của một chương trình; không phải tỷ trọng chung của ngành Khoa học dữ liệu.",
+    entity: "Chương trình A · cơ sở đào tạo giả định",
+    geography: "Hà Nội · bối cảnh minh họa",
+    period: "Bản dùng thử 2026",
+    unit: "% nội dung học minh họa",
+    provider: "Nhóm thiết kế bản dùng thử",
+    updated: "20/09/2026",
+    method: "Các tỷ trọng 25%, 38%, 17%, 20% được tạo để thử cách đọc biểu đồ, tổng bằng 100%. Chưa tính từ tín chỉ hay đề cương thật.",
+    limitation: "Không dùng để so sánh chất lượng trường, đánh giá độ khó hoặc suy ra nội dung của mọi chương trình cùng ngành."
+  },
+  "dashboard-timeline": {
+    title: "Lộ trình học tập minh họa",
+    status: ["Dữ liệu minh họa", "orange", "flask-conical"],
+    definition: "Bốn giai đoạn giúp hình dung tiến trình từ kiến thức nền tảng đến dự án và thực tập.",
+    entity: "Chương trình đào tạo minh họa A/B/C",
+    geography: "Theo chương trình",
+    period: "Bản dùng thử 2026",
+    unit: "Giai đoạn học tập",
+    provider: "Nhóm thiết kế bản dùng thử",
+    updated: "20/09/2026",
+    method: "Nội dung từng năm được biên soạn để trình diễn tương tác, chưa đối chiếu với kế hoạch đào tạo thật.",
+    limitation: "Thứ tự môn, thời điểm thực tập và thời lượng cụ thể phải xem ở kế hoạch đào tạo chính thức."
   },
   "model-method": {
     title: "Cách tạo dự báo xu hướng việc làm v0.3",
@@ -969,6 +896,7 @@ function applySearchMode(mode) {
     visualNode.innerHTML = `${icon(visual[0])}<span>${visual[2]}</span>`;
     card.querySelector(".result-topline").innerHTML = `${badge(variant.entity, "blue")} ${badge(data[4], data[5], data[6])}`;
     card.querySelector("h3").textContent = data[0];
+    card.querySelector(".result-facts").innerHTML = renderSearchFacts(mode, index);
     card.querySelectorAll(".activity-list li").forEach((li, itemIndex) => { li.textContent = data[2][itemIndex]; });
     card.querySelector(".result-stat span").textContent = variant.stat;
     card.querySelector(".result-stat strong").textContent = data[3];
@@ -1264,7 +1192,9 @@ function buildCapturePack(mobile = false) {
 }
 
 function initPrototype() {
+  initDetailDashboards();
   document.addEventListener("click", (event) => {
+    if (handleDashboardClick(event)) return;
     const sourceTrigger = event.target.closest("[data-source-id]");
     if (sourceTrigger) return openSourceDrawer(sourceTrigger.dataset.sourceId, sourceTrigger);
     const sourceClose = event.target.closest("[data-source-action='close']");
@@ -1283,6 +1213,9 @@ function initPrototype() {
     if (nav) {
       event.preventDefault();
       if (nav.dataset.searchPreset) applySearchMode(nav.dataset.searchPreset);
+      const detailKind = ["job", "major", "program"].find((kind) => nav.dataset.nav === `screen-${kind}-detail`);
+      if (detailKind) return openDetailDashboard(detailKind, 0);
+      if (nav.dataset.nav === "screen-compare" && nav.closest("#screen-search")) applyCompareMode(prototypeState.searchMode);
       showPrototypeScreen(nav.dataset.nav);
       if (nav.dataset.searchQuery) {
         document.querySelector("#screen-search .global-search input").value = nav.dataset.searchQuery;
@@ -1395,7 +1328,11 @@ function initPrototype() {
       return showToast(`Đã thêm ${variant.entity.toLowerCase()} vào bảng so sánh cùng loại.`);
     }
     const resultCta = event.target.closest("#screen-search .result-card .btn-primary");
-    if (resultCta) return showPrototypeScreen(searchVariants[prototypeState.searchMode].target);
+    if (resultCta) {
+      const card = resultCta.closest(".result-card");
+      const index = [...document.querySelectorAll("#screen-search .result-card")].indexOf(card);
+      return openDetailDashboard(prototypeState.searchMode, index);
+    }
     const compareStateAction = event.target.closest("[data-compare-state-action]");
     if (compareStateAction) return setCompareState(compareStateAction.dataset.compareStateAction);
     const compareTab = event.target.closest("[data-compare-mode]");
